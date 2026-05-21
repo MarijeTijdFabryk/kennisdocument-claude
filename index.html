@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mijn kennisdocument voor Claude – De TijdFabryk</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-deep: #04292A;
+    --teal-mid: #01696E;
+    --teal-bright: #0199A1;
+    --teal-light: #F4F8F7;
+    --orange: #FF9E40;
+    --orange-hover: #FFB468;
+    --beige: #EFE7DA;
+    --border-cool: #D1DADB;
+    --border-warm: #DDD5C8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Mulish', sans-serif;
+    background: var(--beige);
+    color: var(--teal-deep);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page { max-width: 720px; margin: 0 auto; }
+
+  .header {
+    background: var(--teal-mid);
+    border-radius: 12px 12px 0 0;
+    padding: 2.5rem 2.5rem 2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .header-text { flex: 1; }
+
+  .header h1 {
+    font-family: 'Bitter', serif;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    color: white;
+    margin-bottom: 0.75rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.75);
+    max-width: 420px;
+  }
+
+  .header-logo { flex-shrink: 0; }
+
+  .intro-bar {
+    background: var(--teal-bright);
+    padding: 1rem 2.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .intro-bar span {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .intro-bar span::before { content: '✓'; color: var(--orange); font-weight: 700; }
+
+  .form-body {
+    background: white;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .section {
+    border: 1.5px solid var(--border-cool);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .section:focus-within { border-color: var(--teal-bright); }
+
+  .section-header {
+    background: var(--teal-light);
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1.5px solid var(--border-cool);
+  }
+
+  .section-number {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal-bright);
+    margin-bottom: 0.2rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    margin-bottom: 0.3rem;
+  }
+
+  .section-hint { font-size: 0.8rem; color: #5a7a7c; line-height: 1.5; }
+
+  textarea {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: none;
+    outline: none;
+    font-family: 'Mulish', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--teal-deep);
+    resize: vertical;
+    min-height: 110px;
+    background: white;
+  }
+
+  textarea::placeholder { color: #aabcbd; font-style: italic; }
+
+  .usage {
+    background: var(--teal-mid);
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    color: white;
+  }
+
+  .usage h2 { font-family: 'Bitter', serif; font-size: 1rem; color: white; margin-bottom: 1rem; }
+
+  .steps { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .step { display: flex; gap: 0.9rem; align-items: flex-start; }
+
+  .step-num {
+    background: var(--orange);
+    color: var(--teal-deep);
+    font-weight: 700;
+    font-size: 0.75rem;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step p { font-size: 0.85rem; line-height: 1.55; color: rgba(255,255,255,0.85); }
+  .step p strong { color: white; }
+
+  .actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+  .btn {
+    font-family: 'Mulish', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn:active { transform: scale(0.98); }
+
+  .btn-primary { background: var(--orange); color: var(--teal-deep); }
+  .btn-primary:hover { background: var(--orange-hover); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--teal-mid);
+    border: 1.5px solid var(--teal-mid);
+  }
+  .btn-secondary:hover { background: var(--teal-light); }
+
+  .copy-feedback {
+    font-size: 0.8rem;
+    color: var(--teal-mid);
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .copy-feedback.visible { display: flex; }
+
+  .footer {
+    background: var(--teal-light);
+    border-top: 1.5px solid var(--border-cool);
+    border-radius: 0 0 12px 12px;
+    padding: 1.25rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .footer p { font-size: 0.78rem; color: #5a7a7c; }
+
+  .footer a { color: var(--teal-mid); font-weight: 700; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .actions { display: none; }
+    .header, .footer { border-radius: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .header, .form-body { padding: 1.5rem; }
+    .intro-bar { padding: 0.75rem 1.5rem; gap: 0.75rem; }
+    .footer { padding: 1rem 1.5rem; }
+    .header h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="header">
+    <div class="header-text">
+      <h1>Mijn kennisdocument voor Claude</h1>
+      <p>Vul de vier onderdelen in en plak het resultaat in Claude via Settings → General → Instructions for Claude. Zo weet Claude altijd wie je bent.</p>
+    </div>
+    <div class="header-logo">
+      <img src="data:image/svg+xml;base64,CiAgICAgICAgPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIzMTcxLjQyODU3MTQyODU3MTYiIGhlaWdodD0iMjIyNC42ODg2NzMyODMxNDI2IiB2aWV3Qm94PSIwIDAgMzE3MS40Mjg1NzE0Mjg1NzE2IDIyMjQuNjg4NjczMjgzMTQyNiI+CgkJCQoJCQk8ZyB0cmFuc2Zvcm09InNjYWxlKDguNTcxNDI4NTcxNDI4NTcxKSB0cmFuc2xhdGUoMTAsIDEwKSI+CgkJCQk8ZGVmcyBpZD0iU3ZnanNEZWZzMzE4NyIvPjxnIGlkPSJTdmdqc0czMTg4IiBmZWF0dXJlS2V5PSJweE13WUMtMCIgdHJhbnNmb3JtPSJtYXRyaXgoMS40NTUzNjA3MzU2MzkzNzE4LDAsMCwxLjQ1NTM2MDczNTYzOTM3MTgsMTAxLjgzODAwMjM0NTUwNzgzLDApIiBmaWxsPSIjZmZmIj48ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yMC43NDcsOTcuMDYybC01LjA5OS01OC43OThjMC0wLjAwNCwwLjAwMi0wLjAwOCwwLjAwMi0wLjAxMWMwLTAuMzc2LTEuNDE0LTAuNjgxLTMuMTU4LTAuNjgxICAgYy0xLjc0MiwwLTMuMTU3LDAuMzA1LTMuMTU3LDAuNjgxYzAsMC4wMDMsMC4wMDQsMC4wMDcsMC4wMDQsMC4wMTFsLTUuMSw1OC43OThINC4yMzRjMCwxLjYyMiwzLjY5OCwyLjkzOCw4LjI1OCwyLjkzOCAgIGM0LjU2MiwwLDguMjYxLTEuMzE2LDguMjYxLTIuOTM4SDIwLjc0N3oiLz48L2c+PGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI0OS40NCIgeT0iNjkuOTM3IiB3aWR0aD0iNi44MjIiIGhlaWdodD0iNS40MSIvPjxyZWN0IHg9IjYwLjU2MiIgeT0iNjkuOTM3IiB3aWR0aD0iNi44MjQiIGhlaWdodD0iNS40MSIvPjxyZWN0IHg9IjcxLjY4NyIgeT0iNjkuOTM3IiB3aWR0aD0iNi44MjEiIGhlaWdodD0iNS40MSIvPjxyZWN0IHg9IjcxLjY4NyIgeT0iNzguMDI2IiB3aWR0aD0iNi44MjEiIGhlaWdodD0iNS40MDgiLz48cmVjdCB4PSI2MC41NjIiIHk9Ijc4LjAyNiIgd2lkdGg9IjYuODI0IiBoZWlnaHQ9IjUuNDA4Ii8+PHJlY3QgeD0iNDkuNDQiIHk9Ijc4LjAyNiIgd2lkdGg9IjYuODIyIiBoZWlnaHQ9IjUuNDA4Ii8+PC9nPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0iTTIwLjI4NSwzMS4yMDFjLTAuNjk0LDAtMS4zNjQtMC4zODQtMS42OTctMS4wNDdjLTAuNDctMC45MzctMC4wOTEtMi4wNzYsMC44NDUtMi41NDZjMC43OTUtMC4zOTgsMS4yNjUtMC45NzYsMS40NzktMS44MTUgIGwwLjQ5Ni0xLjk1bDEuOTE3LDAuNjA5YzEuMjI0LDAuMzksMi41MjUsMC41ODYsMy44NywwLjU4NmMzLjIxOSwwLDYuMTgzLTEuMTM1LDcuOTI4LTMuMDM4bDEuMDgyLTEuMTc5bDEuMzQ0LDAuODY2ICBjMy42MzgsMi4zNDQsOC44MDYsMy42ODksMTQuMTc4LDMuNjg5YzEwLjI5NiwwLDE4Ljk5NS00Ljk0MiwxOC45OTUtMTAuNzkyYzAtMC42NjgtMC4xMTMtMS4zNC0wLjM0LTEuOTk2ICBjLTAuMzQtMC45OTEsMC4xODgtMi4wNywxLjE4LTIuNDFjMC45OTEtMC4zNDEsMi4wNjgsMC4xODgsMi40MDksMS4xNzljMC4zNjEsMS4wNTMsMC41NDUsMi4xNCwwLjU0NSwzLjIyOCAgYzAsOC4xNzktMTAuMDExLDE0LjU4NS0yMi43ODksMTQuNTg1Yy01LjU3NiwwLTEwLjgyLTEuMjQ1LTE0Ljk0OS0zLjUyN2MtMi40NTksMi4wMTctNS45MjcsMy4xODktOS41ODIsMy4xODkgIGMtMS4xMzUsMC0yLjI1MS0wLjExMS0zLjMzNC0wLjMyOWMtMC42MjksMS4wNTgtMS41NDksMS45MDUtMi43MjUsMi40OTVDMjAuODYyLDMxLjEzNiwyMC41NzEsMzEuMjAxLDIwLjI4NSwzMS4yMDF6Ii8+PHBhdGggeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkPSJNMTIuMjQzLDI4LjgyNWMtMC43MjksMC0xLjQyNC0wLjQyMi0xLjczNy0xLjEzMmMtMC4zNDQtMC43OC0wLjUxOC0xLjYwMy0wLjUxOC0yLjQ0OGMwLTIuNTU3LDEuNjM4LTQuODM2LDQuMDktNS45MzcgIGMtMC4wMi0wLjIyMi0wLjAyOS0wLjQ0Mi0wLjAyOS0wLjY2MmMwLTUuNjE3LDUuODk4LTEwLjE4NywxMy4xNDYtMTAuMTg3YzEuMjA4LDAsMi4zOTYsMC4xMjUsMy41NDYsMC4zNzMgIEMzNC4yNDgsMy40OTQsNDIuNDEzLDAsNTEuNzI2LDBjMS44MTMsMCwzLjYzMywwLjEzNyw1LjQwNSwwLjQwN2MxLjAzNiwwLjE1OCwxLjc0NywxLjEyNSwxLjU4OSwyLjE2MSAgYy0wLjE1NiwxLjAzNi0xLjEzLDEuNzUtMi4xNiwxLjU4OWMtMS41ODQtMC4yNDItMy4yMTEtMC4zNjQtNC44MzQtMC4zNjRjLTguNTMyLDAtMTYuMDc4LDMuMzE2LTE4LjM1LDguMDY1bC0wLjcxNCwxLjQ5MiAgbC0xLjU3NS0wLjUwNGMtMS4yMzItMC4zOTQtMi41NDItMC41OTQtMy44OTMtMC41OTRjLTUuMDcsMC05LjM1MywyLjkyOC05LjM1Myw2LjM5M2MwLDAuNDQyLDAuMDc2LDAuODg4LDAuMjMyLDEuMzYzbDAuNjg3LDIuMDgyICBsLTIuMTU4LDAuMzgxYy0xLjYzNSwwLjI4OS0yLjgyMiwxLjQ1NS0yLjgyMiwyLjc3M2MwLDAuMzE1LDAuMDY2LDAuNjI0LDAuMTk2LDAuOTE3YzAuNDIyLDAuOTU5LTAuMDEyLDIuMDc5LTAuOTcsMi41MDEgIEMxMi43NTgsMjguNzcyLDEyLjQ5OCwyOC44MjUsMTIuMjQzLDI4LjgyNXoiLz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0cm9rZT0iIzAxNjk2ZSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZD0iTTE0Ljg1MywzMS4xOTYiLz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Ik05NC4wNjYsNTAuODljLTEuMDA4LTAuODk4LTIuMjk5LTEuMzItMy42NzQtMS4xNjdMNzksNTEuMDI3VjQwSDY5djEyLjEzbC0zLDAuMzY4VjQ0SDU2djkuNmwtMzAuNTQ4LDMuNDczICBjLTEuMzg4LDAuMTU4LTIuNDA3LDEuNDEyLTIuMjQ5LDIuOHMxLjI4OCwyLjM5MSwyLjY2NywyLjIyN0w5MCw1NC43ODNWOTBIMjguMjc0Yy0xLjM5NiwwLTIuNTI5LDEuNjA0LTIuNTI5LDMgIGMwLDEuMzk3LDEuMTMyLDMsMi41MjksM2g2MS45NjhDOTMuMDMxLDk2LDk2LDkyLjU3OSw5Niw4OS43OVY1NC40NzlDOTYsNTMuMDk2LDk1LjA3Miw1MS43ODgsOTQuMDY2LDUwLjg5eiIvPjwvZz48ZyBpZD0iU3ZnanNHMzE4OSIgZmVhdHVyZUtleT0iVng1UWlVLTAiIHRyYW5zZm9ybT0ibWF0cml4KDIuNDQ3NTUyNDQ3NTUyNDQ3NSwwLDAsMi40NDc1NTI0NDc1NTI0NDc1LC0zLjkxNjA4MTM0ODQ5OTIxOCwxNTcuNjc4MzIzNzc5MDcyOCkiIGZpbGw9IiNmZmYiPjxwYXRoIGQ9Ik0xNS44MiAxMiBxMCAxLjY2IC0wLjU2IDMuMTEgdC0xLjU2IDIuNTQgdC0yLjM5IDEuNzIgdC0zLjAzIDAuNjMgbC02LjY4IDAgbDAgLTE2IGw2LjY4IDAgcTEuNjQgMCAzLjAzIDAuNjQgdDIuMzkgMS43MiB0MS41NiAyLjU0IHQwLjU2IDMuMSB6IE0xMi42OCAxMS45MiBxMC4wMiAtMS4xMiAtMC4zNCAtMi4xMiB0LTEuMDQgLTEuNzUgdC0xLjY3IC0xLjE4IHQtMi4yMyAtMC40MyBsLTIuNyAwIGwwIDEwLjkyIGwyLjcgMCBxMS4yMiAwIDIuMTkgLTAuNDEgdDEuNjUgLTEuMTQgdDEuMDUgLTEuNzIgdDAuMzkgLTIuMTcgeiBNMjkuNzYgMTQuMiBxMCAwLjI4IC0wLjAzIDAuNTggdC0wLjA3IDAuNjIgbC05LjI0IDAgcTAuMTYgMC41IDAuNDUgMC45NSB0MC43MSAwLjc4IHQwLjk1IDAuNTIgdDEuMTcgMC4xOSBxMC43OCAwIDEuNTYgLTAuMjcgdDEuMyAtMC43MyBsMS44MiAxLjgyIHEtMS4yIDAuOSAtMi4zNSAxLjI3IHQtMi40MyAwLjM3IHEtMS4zIDAgLTIuNDMgLTAuNDggdC0xLjk2IC0xLjMgdC0xLjMxIC0xLjkzIHQtMC40OCAtMi4zNyB0MC40OCAtMi4zNyB0MS4zMiAtMS45MyB0MS45NiAtMS4zIHQyLjQgLTAuNDggcTEuMjIgMCAyLjM0IDAuNDUgdDEuOTggMS4yNSB0MS4zNiAxLjkxIHQwLjUgMi40NSB6IE0yNi43NDAwMDAwMDAwMDAwMDIgMTMuMDggcS0wLjM0IC0xLjEgLTEuMjEgLTEuNzcgdC0xLjk3IC0wLjY3IHEtMS4wOCAwIC0xLjk0IDAuNjcgdC0xLjIgMS43NyBsNi4zMiAwIHogTTQ5LjIzOTk5OTk5OTk5OTk5NSA2Ljc3OTk5OTk5OTk5OTk5OSBsLTQuNDIgMCBsMCAxMy4yMiBsLTMuMTQgMCBsMCAtMTMuMjIgbC00LjQyIDAgbDAgLTIuNzYgbDExLjk4IDAgbDAgMi43NiB6IE01My44NCA2LjQyIGwtMyAwIGwwIC0zIGwzIDAgbDAgMyB6IE01My44IDIwIGwtMi45MiAwIGwwIC0xMS41OCBsMi45MiAwIGwwIDExLjU4IHogTTU5LjY4IDYuNDIgbC0zIDAgbDAgLTMgbDMgMCBsMCAzIHogTTU5LjY0IDIwLjYgcTAgMS4xNCAtMC4zMSAyLjAzIHQtMC44OCAxLjQ2IHQtMS40IDAuOCB0LTEuODUgMC4wNSBsLTAuOTYgLTIuNyBxMC40NCAwLjE0IDAuODkgMC4xNiB0MC44IC0wLjE1IHQwLjU3IC0wLjU3IHQwLjIyIC0xLjEyIGwwIC0xMi4xNCBsMi45MiAwIGwwIDEyLjE4IHogTTczIDIwIGwtMi45NCAwIGwwIC0wLjYgcS0wLjU2IDAuNDYgLTEuMjIgMC42NyB0LTEuNCAwLjIxIHEtMS4yMiAwIC0yLjI0IC0wLjQ5IHQtMS43NiAtMS4zMiB0LTEuMTUgLTEuOTMgdC0wLjQxIC0yLjMyIHEwIC0xLjMgMC40NyAtMi40MSB0MS4yNSAtMS45MyB0MS43OCAtMS4yOSB0Mi4wNiAtMC40NyBxMC43NCAwIDEuNDQgMC4yIHQxLjIgMC41NiBsMCAtNS40OCBsMi45MiAwIGwwIDE2LjYgeiBNNzAuMSAxNi45IGwwIC01LjU2IHEtMC4yIC0wLjE0IC0wLjQ2IC0wLjI3IHQtMC41NCAtMC4yMiB0LTAuNTYgLTAuMTQgdC0wLjUgLTAuMDUgcS0wLjcyIDAgLTEuMzEgMC4yNSB0LTEuMDMgMC43MiB0LTAuNjggMS4xMyB0LTAuMjQgMS40NiBxMCAwLjc4IDAuMjQgMS40MyB0MC42NiAxLjEyIHQxLjAxIDAuNzMgdDEuMjkgMC4yNiBxMS4xNCAwIDIuMTIgLTAuODYgeiBNODYuMzYgNi42OCBsLTcuNTIgMCBsMCAzLjcyIGw3LjQyIDAgbDAgMi41MiBsLTcuNDIgMCBsMCA3LjA4IGwtMy4wNCAwIGwwIC0xNS45OCBsMTAuNTYgMCBsMCAyLjY2IHogTTk3LjM2IDIwIGwtMi45IDAgbDAgLTAuNjIgcS0wLjc2IDAuNTIgLTEuNjEgMC43MiB0LTEuNzUgMC4yIHEtMC44NCAwIC0xLjUyIC0wLjI1IHQtMS4xOCAtMC43MiB0LTAuNzcgLTEuMTEgdC0wLjI3IC0xLjQyIHEwIC0wLjk4IDAuNDMgLTEuNzEgdDEuMTcgLTEuMjIgdDEuNzMgLTAuNzMgdDIuMTMgLTAuMjQgbDEuNjYgMCBxMCAtMS4wMiAtMC42NiAtMS42MiB0LTEuOSAtMC42IHEtMC42IDAgLTEuMjQgMC4yMiB0LTEuMjggMC44IGwtMS43IC0xLjcyIHEwLjkyIC0wLjg4IDIuMTMgLTEuMzYgdDIuNDkgLTAuNDggcTEuMiAwIDIuMTQgMC4zOCB0MS41MiAwLjk4IHEwLjc2IDAuNzYgMS4wNyAxLjcgdDAuMzEgMi40IGwwIDYuNCB6IE05NC40NjAwMDAwMDAwMDAwMSAxNy4xMiBsMCAtMi4xNCBsLTEuMzIgMCBxLTAuNiAwIC0xLjEzIDAuMDggdC0wLjkyIDAuMjcgdC0wLjYyIDAuNDkgdC0wLjIzIDAuNzIgcTAgMC42IDAuNDcgMC45OCB0MS4yMSAwLjM4IHEwLjY0IDAgMS4yNyAtMC4yIHQxLjI3IC0wLjU4IHogTTExMC42OCAxNC4yMTk5OTk5OTk5OTk5OTkgcTAgMS4yMiAtMC40MSAyLjMyIHQtMS4xNSAxLjkzIHQtMS43NiAxLjMyIHQtMi4yNCAwLjQ5IHEtMC43NiAwIC0xLjQyIC0wLjIxIHQtMS4yNCAtMC42NyBsMCAwLjYgbC0yLjkgMCBsMCAtMTYuNiBsMi45MiAwIGwwIDUuNiBxMC41IC0wLjQgMS4xOSAtMC42NCB0MS40NSAtMC4yNCBxMS4wNiAwIDIuMDYgMC40NyB0MS43OCAxLjI5IHQxLjI1IDEuOTMgdDAuNDcgMi40MSB6IE0xMDcuNzYgMTQuMjE5OTk5OTk5OTk5OTk5IHEwIC0wLjggLTAuMjQgLTEuNDYgdC0wLjY3IC0xLjEzIHQtMS4wMiAtMC43MiB0LTEuMzEgLTAuMjUgcS0wLjQ2IDAgLTEuMDYgMC4xOSB0LTEgMC40OSBsMCA1LjU2IHEwLjk0IDAuODYgMi4xMiAwLjg2IHEwLjY4IDAgMS4yNyAtMC4yNiB0MS4wMSAtMC43MyB0MC42NiAtMS4xMiB0MC4yNCAtMS40MyB6IE0xMjAuOCA5LjY0IGwtMS41NCAyLjQ0IHEtMC40MiAtMC40NiAtMC45MyAtMC44MSB0LTEuMDMgLTAuMzUgcS0wLjI4IDAgLTAuNjEgMC4xMyB0LTAuNjIgMC40MyB0LTAuNDkgMC43OSB0LTAuMiAxLjIxIGwwIDYuNTIgbC0yLjkgMCBsMCAtMTEuNTYgbDIuOSAwIGwwIDEuMjQgcTAuNTIgLTAuNzQgMS4xNSAtMS4xNCB0MS40MSAtMC40IHEwLjc2IDAgMS40OSAwLjQxIHQxLjM3IDEuMDkgeiBNMTMyLjI5OTk5OTk5OTk5OTk4IDguNDIgbC01LjIgMTMuNzQgcS0wLjU4IDEuNTQgLTEuNTIgMi4yMiB0LTIuMjQgMC42OCBxLTAuMiAwIC0wLjQ0IC0wLjAzIHQtMC40NiAtMC4wOSBsLTAuOTYgLTIuNjggcTAuMzQgMC4xNiAwLjcgMC4yNSB0MC42OCAwLjA5IHEwLjY4IDAgMS4yNCAtMC4zMSB0MC44NiAtMS4xNSBsMC40IC0xLjE2IGwtNC40NiAtMTEuNTYgbDMuMTQgMCBsMi42NiA3LjQ0IGwyLjUgLTcuNDQgbDMuMSAwIHogTTE0NC42IDIwIGwtMy40MiAwIGwtNC42NCAtNS4xOCBsMCA1LjE4IGwtMi45NCAwIGwwIC0xNi41OCBsMi45NCAwIGwwIDkuOTIgbDQuMDQgLTQuOSBsMy4zNiAwIGwtNC43NCA1LjYyIHoiLz48L2c+PGcgaWQ9IlN2Z2pzRzMxOTAiIGZlYXR1cmVLZXk9ImFBVVNYRS0wIiB0cmFuc2Zvcm09Im1hdHJpeCgwLjYzNTM2MjA3NDAyNDM5MzMsMCwwLDAuNjM1MzYyMDc0MDI0MzkzMywyNi45ODM0MjEwNDUxMTgwNjcsMjI2LjY0OTE2MTUwNzY3MDMpIiBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMTcuNTYgMjAgbC0zLjA0IDAgbDAgLTEwLjY4IGwtNS4wNCA4LjUgbC00Ljg0IC04LjU4IGwwIDEwLjc2IGwtMy4wNCAwIGwwIC0xNiBsMy41IDAgbDQuNDQgNy45NCBsNC42NCAtNy45NCBsMy4zOCAwIGwwIDE2IHogTTQ4LjA3NTk5OTk5OTk5OTk5IDIwIGwtMy40IDAgbC0xLjQ4IC0zLjIgbC03Ljc2IDAgbC0xLjUgMy4yIGwtMy40IDAgbDcuNTYgLTE2IGwyLjQyIDAgeiBNNDEuOTc2IDE0LjIxOTk5OTk5OTk5OTk5OSBsLTIuNjYgLTUuNzYgbC0yLjcgNS43NiBsNS4zNiAwIHogTTc3LjE5MiAyMCBsLTMuNCAwIGwtMS40OCAtMy4yIGwtNy43NiAwIGwtMS41IDMuMiBsLTMuNCAwIGw3LjU2IC0xNiBsMi40MiAwIHogTTcxLjA5MiAxNC4yMTk5OTk5OTk5OTk5OTkgbC0yLjY2IC01Ljc2IGwtMi43IDUuNzYgbDUuMzYgMCB6IE0xMDMuNzA4IDIwIGwtNC4wNCAwIGwtNi40IC03LjA4IGwwIDcuMDggbC0zLjEgMCBsMCAtMTYgbDMuMSAwIGwwIDcuMTQgbDYuNTQgLTcuMTQgbDMuNjggMCBsLTcuMjIgNy44NiB6IE0xMjcuNDY0IDYuNzc5OTk5OTk5OTk5OTk5IGwtNC40MiAwIGwwIDEzLjIyIGwtMy4xNCAwIGwwIC0xMy4yMiBsLTQuNDIgMCBsMCAtMi43NiBsMTEuOTggMCBsMCAyLjc2IHogTTE2OS40OTYgNi43Nzk5OTk5OTk5OTk5OTkgbC00LjQyIDAgbDAgMTMuMjIgbC0zLjE0IDAgbDAgLTEzLjIyIGwtNC40MiAwIGwwIC0yLjc2IGwxMS45OCAwIGwwIDIuNzYgeiBNMTg1Ljk3MTk5OTk5OTk5OTk4IDIwIGwtMy4xIDAgbDAgLTE1Ljk4IGwzLjEgMCBsMCAxNS45OCB6IE0yMDkuMTY3OTk5OTk5OTk5OTggMTQuNjQgcTAgMS42MiAtMC41NyAyLjcgdC0xLjM5IDEuNzQgdC0xLjc1IDAuOTQgdC0xLjY3IDAuMjggcS0xLjM2IDAgLTIuNTkgLTAuNjQgdC0yLjA1IC0xLjcgbDIuMDQgLTIuMDIgcTAuNCAwLjY0IDEuMDQgMSB0MS4zMiAwLjM2IHEwLjQ2IDAgMC45IC0wLjE3IHQwLjc5IC0wLjQ5IHQwLjU2IC0wLjc4IHQwLjIxIC0xLjA2IGwwIC0xMC43OCBsMy4xNiAwIGwwIDEwLjYyIHogTTIzNy41NjQgMTIgcTAgMS42NiAtMC41NiAzLjExIHQtMS41NiAyLjU0IHQtMi4zOSAxLjcyIHQtMy4wMyAwLjYzIGwtNi42OCAwIGwwIC0xNiBsNi42OCAwIHExLjY0IDAgMy4wMyAwLjY0IHQyLjM5IDEuNzIgdDEuNTYgMi41NCB0MC41NiAzLjEgeiBNMjM0LjQyNCAxMS45MiBxMC4wMiAtMS4xMiAtMC4zNCAtMi4xMiB0LTEuMDQgLTEuNzUgdC0xLjY3IC0xLjE4IHQtMi4yMyAtMC40MyBsLTIuNyAwIGwwIDEwLjkyIGwyLjcgMCBxMS4yMiAwIDIuMTkgLTAuNDEgdDEuNjUgLTEuMTQgdDEuMDUgLTEuNzIgdDAuMzkgLTIuMTcgeiBNMjgyLjgxNiA0IGwtNi4wNiAxNiBsLTIuODQgMCBsLTYuMiAtMTYgbDMuNDQgMCBsNC4xNiAxMS4yNCBsNC4xIC0xMS4yNCBsMy40IDAgeiBNMzExLjM5MiAxMiBxMCAxLjcyIC0wLjY3IDMuMjQgdC0xLjgzIDIuNjQgdC0yLjcgMS43NyB0LTMuMjggMC42NSB0LTMuMjkgLTAuNjUgdC0yLjcxIC0xLjc3IHQtMS44MyAtMi42MyB0LTAuNjcgLTMuMjUgdDAuNjcgLTMuMjYgdDEuODMgLTIuNjQgdDIuNzEgLTEuNzYgdDMuMjkgLTAuNjQgdDMuMjggMC42NCB0Mi43IDEuNzcgdDEuODMgMi42NCB0MC42NyAzLjI1IHogTTMwOC4yNzIgMTIgcTAgLTEuMSAtMC40MiAtMi4wNyB0LTEuMTUgLTEuNyB0LTEuNzEgLTEuMTYgdC0yLjA4IC0wLjQzIHEtMS4xMiAwIC0yLjEgMC40MyB0LTEuNzEgMS4xNiB0LTEuMTUgMS43IHQtMC40MiAyLjA3IHEwIDEuMDggMC40MiAyLjA2IHQxLjE1IDEuNzEgdDEuNzEgMS4xNiB0Mi4xIDAuNDMgcTEuMSAwIDIuMDggLTAuNDMgdDEuNzEgLTEuMTYgdDEuMTUgLTEuNzEgdDAuNDIgLTIuMDYgeiBNMzQxLjU0OCAxMiBxMCAxLjcyIC0wLjY3IDMuMjQgdC0xLjgzIDIuNjQgdC0yLjcgMS43NyB0LTMuMjggMC42NSB0LTMuMjkgLTAuNjUgdC0yLjcxIC0xLjc3IHQtMS44MyAtMi42MyB0LTAuNjcgLTMuMjUgdDAuNjcgLTMuMjYgdDEuODMgLTIuNjQgdDIuNzEgLTEuNzYgdDMuMjkgLTAuNjQgdDMuMjggMC42NCB0Mi43IDEuNzcgdDEuODMgMi42NCB0MC42NyAzLjI1IHogTTMzOC40MjggMTIgcTAgLTEuMSAtMC40MiAtMi4wNyB0LTEuMTUgLTEuNyB0LTEuNzEgLTEuMTYgdC0yLjA4IC0wLjQzIHEtMS4xMiAwIC0yLjEgMC40MyB0LTEuNzEgMS4xNiB0LTEuMTUgMS43IHQtMC40MiAyLjA3IHEwIDEuMDggMC40MiAyLjA2IHQxLjE1IDEuNzEgdDEuNzEgMS4xNiB0Mi4xIDAuNDMgcTEuMSAwIDIuMDggLTAuNDMgdDEuNzEgLTEuMTYgdDEuMTUgLTEuNzEgdDAuNDIgLTIuMDYgeiBNMzY3LjM2NCAyMCBsLTMuNDIgMCBsLTEuMTQgLTMuNjQgcS0wLjE4IC0wLjYgLTAuNDUgLTEuMSB0LTAuNjUgLTAuODYgdC0wLjkxIC0wLjU2IHQtMS4yNSAtMC4yIGwtMS4xNiAwIGwwIDYuMzYgbC0zLjA2IDAgbDAgLTE1Ljk4IGw2LjMyIC0wLjAyIHExLjAyIDAgMS45IDAuMzUgdDEuNTIgMC45NyB0MSAxLjQ2IHQwLjM2IDEuODIgcTAgMC43IC0wLjIyIDEuMzYgdC0wLjYyIDEuMjIgdC0wLjk1IDAuOTkgdC0xLjIxIDAuNjUgcTAuNzYgMC4yOCAxLjI0IDAuODEgdDAuNzYgMS4yNyBxMC4xNCAwLjM0IDAuMjYgMC42OCB0MC4yNSAwLjcxIHQwLjI4IDAuOCB0MC4zMyAwLjk1IHEwLjIyIDAuNjYgMC40MSAxLjEzIHQwLjQxIDAuODMgeiBNMzYzLjMwNCA4LjgyIHEwIC0wLjU2IC0wLjIxIC0xLjAyIHQtMC41NyAtMC44IHQtMC44NSAtMC41MyB0LTEuMDUgLTAuMTkgbC0yLjI0IDAgbDAgNC45OCBsMi4yNCAwIHEwLjU2IDAgMS4wNSAtMC4xNyB0MC44NSAtMC40OSB0MC41NyAtMC43NyB0MC4yMSAtMS4wMSB6IE00MDcuMTM1OTk5OTk5OTk5OTcgMTQuNjQgcTAgMS42MiAtMC41NyAyLjcgdC0xLjM5IDEuNzQgdC0xLjc1IDAuOTQgdC0xLjY3IDAuMjggcS0xLjM2IDAgLTIuNTkgLTAuNjQgdC0yLjA1IC0xLjcgbDIuMDQgLTIuMDIgcTAuNCAwLjY0IDEuMDQgMSB0MS4zMiAwLjM2IHEwLjQ2IDAgMC45IC0wLjE3IHQwLjc5IC0wLjQ5IHQwLjU2IC0wLjc4IHQwLjIxIC0xLjA2IGwwIC0xMC43OCBsMy4xNiAwIGwwIDEwLjYyIHogTTQzNy42OTE5OTk5OTk5OTk5NSAxMiBxMCAxLjcyIC0wLjY3IDMuMjQgdC0xLjgzIDIuNjQgdC0yLjcgMS43NyB0LTMuMjggMC42NSB0LTMuMjkgLTAuNjUgdC0yLjcxIC0xLjc3IHQtMS44MyAtMi42MyB0LTAuNjcgLTMuMjUgdDAuNjcgLTMuMjYgdDEuODMgLTIuNjQgdDIuNzEgLTEuNzYgdDMuMjkgLTAuNjQgdDMuMjggMC42NCB0Mi43IDEuNzcgdDEuODMgMi42NCB0MC42NyAzLjI1IHogTTQzNC41NzE5OTk5OTk5OTk5NSAxMiBxMCAtMS4xIC0wLjQyIC0yLjA3IHQtMS4xNSAtMS43IHQtMS43MSAtMS4xNiB0LTIuMDggLTAuNDMgcS0xLjEyIDAgLTIuMSAwLjQzIHQtMS43MSAxLjE2IHQtMS4xNSAxLjcgdC0wLjQyIDIuMDcgcTAgMS4wOCAwLjQyIDIuMDYgdDEuMTUgMS43MSB0MS43MSAxLjE2IHQyLjEgMC40MyBxMS4xIDAgMi4wOCAtMC40MyB0MS43MSAtMS4xNiB0MS4xNSAtMS43MSB0MC40MiAtMi4wNiB6IE00NjUuNDg3OTk5OTk5OTk5OTQgNCBsMCA4LjY4IHEwIDEuNiAtMC40OCAyLjk4IHQtMS4zOSAyLjQxIHQtMi4yMiAxLjYyIHQtMi45OSAwLjU5IHEtMS42NCAwIC0yLjk2IC0wLjU4IHQtMi4yNSAtMS41OSB0LTEuNDMgLTIuMzggdC0wLjUgLTIuOTUgbDAgLTguNzggbDMuMSAwIGwwIDguOCBxMCAwLjkyIDAuMjYgMS43MyB0MC43NiAxLjQxIHQxLjI1IDAuOTUgdDEuNzEgMC4zNSBxMS4wMiAwIDEuNzcgLTAuMzMgdDEuMjQgLTAuOTIgdDAuNzQgLTEuMzkgdDAuMjUgLTEuNzYgbDAgLTguODQgbDMuMTQgMCB6Ii8+PC9nPgoJCQk8L2c+CgkJPC9zdmc+Cgk=" alt="De TijdFabryk" style="height: 72px; display: block;">
+    </div>
+  </div>
+
+  <div class="intro-bar">
+    <span>Vul in op je pc</span>
+    <span>Kopieer naar Claude</span>
+    <span>Herhaal nooit meer wie je bent</span>
+  </div>
+
+  <div class="form-body">
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">Onderdeel 1</div>
+        <div class="section-title">Dit ben ik</div>
+        <div class="section-hint">Beschrijf je bedrijf in twee tot vier zinnen. Wat doe je, voor wie, en in welke context werk je? Claude heeft geen uitgebreide achtergrond nodig - alleen wat relevant is voor de taken die je hem geeft.</div>
+      </div>
+      <textarea id="field1" placeholder="Bijvoorbeeld: Ik run een kleine jachthaven in Friesland met 80 ligplaatsen. Ik doe alles zelf: van onderhoud tot communicatie met gasten. De gasten zijn grotendeels vaste klanten, maar in het hoogseizoen komen er veel nieuwe mensen bij."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">Onderdeel 2</div>
+        <div class="section-title">Zo werk ik</div>
+        <div class="section-hint">Beschrijf hoe jouw werkdag eruitziet en welke taken je Claude het vaakst voor gebruikt. Denk aan: schrijfwerk, planning, klantcommunicatie, ideeën uitwerken, teksten nakijken.</div>
+      </div>
+      <textarea id="field2" placeholder="Bijvoorbeeld: Ik gebruik Claude vooral voor het schrijven van mails naar gasten, het uitwerken van ideeën voor het seizoen en het opstellen van informatie voor op de website. Ik werk het liefst snel en praktisch - geen lange omhaal."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">Onderdeel 3</div>
+        <div class="section-title">Zo schrijf en communiceer ik</div>
+        <div class="section-hint">Beschrijf je toon. Hoe klink je naar klanten of gasten? Formeel of informeel? Kort of uitgebreid? Geef Claude genoeg om in jouw stem te schrijven.</div>
+      </div>
+      <textarea id="field3" placeholder="Bijvoorbeeld: Ik schrijf informeel en direct. Ik gebruik jij-vorm, geen u. Mijn toon is vriendelijk maar bondig. Ik schrijf altijd in het Nederlands."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-number">Onderdeel 4</div>
+        <div class="section-title">Dit hoeft Claude niet te doen</div>
+        <div class="section-hint">Wat wil je niet? Denk aan: geen lange inleidingen, geen marketingtaal, geen opsommingen als dat niet nodig is, geen vragen terugstellen als je een opdracht geeft.</div>
+      </div>
+      <textarea id="field4" placeholder="Bijvoorbeeld: Geen wollige openingszinnen. Geen drie opties als ik om één tekst vraag. Geen marketingtaal zoals 'optimale gastbeleving' of 'sleutel tot succes'. Gewoon doen wat ik vraag."></textarea>
+    </div>
+
+    <div class="usage">
+      <h2>Zo gebruik je dit document in Claude</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <p>Vul de vier onderdelen hierboven in en klik op <strong>Kopieer document</strong>.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <p>Open Claude en klik linksonder op je naam. Ga naar <strong>Settings → General → Instructions for Claude</strong>. Plak je tekst en sla op. Vanaf nu geldt dit voor elk gesprek.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <p>Vanaf nu weet Claude wie je bent, hoe je werkt en hoe je schrijft - zonder dat je het elke keer opnieuw hoeft uit te leggen. Dit werkt ook met de gratis versie van Claude.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="copyBtn">Kopieer document</button>
+      <button class="btn btn-secondary" onclick="window.print()">Afdrukken</button>
+      <span class="copy-feedback" id="copyFeedback">✓ Gekopieerd - plak het in Claude</span>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>Wil je Claude ook laten weten hoe je schrijft, voor wie je werkt en wat er per project verschilt?</p>
+    <a href="https://tijdfabryk.nl/cursus-claude-werkt">Dat leer je in de cursus 'Claude wérkt' →</a>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  function getTextareas() {
+    return document.querySelectorAll('textarea');
+  }
+
+  function copyDocument() {
+    var textareas = getTextareas();
+    var labels = [
+      '## Dit ben ik',
+      '## Zo werk ik',
+      '## Zo schrijf en communiceer ik',
+      '## Dit hoeft Claude niet te doen'
+    ];
+
+    var output = '# Mijn kennisdocument voor Claude\n\n';
+
+    for (var i = 0; i < labels.length; i++) {
+      var val = textareas[i] ? textareas[i].value.trim() : '';
+      output += labels[i] + '\n\n';
+      output += (val || '[nog niet ingevuld]') + '\n\n';
+    }
+
+    output += '---\n';
+
+    var feedback = document.getElementById('copyFeedback');
+    var btn = document.getElementById('copyBtn');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(output).then(function() {
+        if (feedback) { feedback.classList.add('visible'); setTimeout(function() { feedback.classList.remove('visible'); }, 3000); }
+      }).catch(function() {
+        fallbackCopy(output);
+      });
+    } else {
+      fallbackCopy(output);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      var feedback = document.getElementById('copyFeedback');
+      if (feedback) { feedback.classList.add('visible'); setTimeout(function() { feedback.classList.remove('visible'); }, 3000); }
+    } catch(e) {
+      alert('Kopiëren niet gelukt. Selecteer de tekst handmatig.');
+    }
+    document.body.removeChild(ta);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('copyBtn');
+    if (btn) { btn.addEventListener('click', copyDocument); }
+  });
+
+  // Fallback als DOMContentLoaded al gevuurd is
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    var btn = document.getElementById('copyBtn');
+    if (btn && !btn._bound) {
+      btn.addEventListener('click', copyDocument);
+      btn._bound = true;
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
